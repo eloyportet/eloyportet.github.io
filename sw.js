@@ -1,6 +1,6 @@
 /* Service worker — offline support for eloy.portet.org
    Bump VERSION whenever any site file changes (see README.md, "Versionner le cache"). */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const CACHE = 'eloy-' + VERSION;
 const FONT_CACHE = 'eloy-fonts';
 

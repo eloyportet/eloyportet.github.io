@@ -22,7 +22,7 @@ Ce document sert de passation : un humain ou une IA doit pouvoir reprendre le pr
 - **Léger et rapide** : images dimensionnées pour leur taille d'affichage (×2 pour les écrans Retina), pas de JS bloquant (`defer`).
 - **Accessible** : `alt` sur les images, `aria-label` sur les boutons icônes, focus visible, `prefers-reduced-motion` respecté (animations coupées).
 - **Langue** : contenu en français (`lang="fr"`), ton décalé (« mi-homme, mi-canard »).
-- **Vie privée** : pas de tracker ni d'analytics.
+- **Vie privée** : seule mesure d'audience autorisée : **GoatCounter** (sans cookie, sans donnée personnelle, donc pas de bandeau de consentement), compte `eportet` → https://eportet.goatcounter.com. Script présent dans `index.html` et `404.html` (la 404 permet de repérer les liens cassés). Pas d'autre tracker.
 
 ## Arborescence
 
