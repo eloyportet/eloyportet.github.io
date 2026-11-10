@@ -99,6 +99,14 @@ Convertir `og.png` en JPEG (qualité ~85, < 100 Ko) vers `assets/og-image.jpg`, 
 ### Changer le logo / les icônes
 `favicon.svg` est la source. Les PNG de `assets/icons/` en sont dérivés : l'icône `maskable` doit avoir un fond plein et le « E » dans les 80 % centraux (Android découpe les bords).
 
+### Tenir à jour le JSON-LD (SEO)
+Le bloc `<script type="application/ld+json">` de `index.html` est un `@graph` : la page (`ProfilePage`), Eloy (`Person`, `#eloy`), ses groupes (`MusicGroup` Stoneheart et Dad Jokes) et ses concerts passés (`MusicEvent`, chacun avec une vidéo YouTube de la chaîne de son père en `recordedIn`). Les nœuds se référencent par `@id`.
+- **Nouveau concert** : copier un `MusicEvent`, changer `@id`, date, lieu, vidéo (date de mise en ligne et durée lisibles dans le code source de la page YouTube : `uploadDate`, `duration`), puis ajouter son `@id` dans `performerIn` de `#eloy`.
+- **Nouveau profil d'Eloy** (Spotify, MusicBrainz…) → `sameAs` de `#eloy`. Profil du groupe → `sameAs` du `MusicGroup`. Ne jamais mettre dans `sameAs` un compte qui n'est pas le sien (ex. la chaîne YouTube de son père).
+- Mettre à jour `dateModified` de la `ProfilePage`.
+- **Eloy est mineur** : ne pas publier date de naissance, adresse, nom de l'établissement scolaire ni noms complets des autres musiciens. Localisation limitée au département.
+- Vérifier ensuite avec le Rich Results Test de Google ou validator.schema.org.
+
 ### Ajouter une section de liens
 Copier un bloc `<a class="link-btn link-btn--secondary">` existant (icône SVG en ligne, `target="_blank" rel="noopener noreferrer"`). Si c'est un profil de la même personne/du groupe, l'ajouter aussi au `sameAs` du JSON-LD.
 
@@ -124,6 +132,14 @@ Pousser sur `main` : GitHub Pages publie en une à deux minutes. Après une mise
 - Aperçus de partage : Sharing Debugger de Facebook (forcer un nouveau scraping).
 - Données structurées : Rich Results Test de Google.
 - Indexation : déclarer `https://eloy.portet.org/sitemap.xml` dans Google Search Console.
+
+### Signaler une mise à jour aux moteurs
+- **Bing, Yandex, Seznam, Naver** (protocole IndexNow) : la clé est le fichier `de6c517051ebe6dd132277704fc3fc0b.txt` à la racine (ne pas le supprimer). Après un déploiement :
+  ```bash
+  curl "https://api.indexnow.org/indexnow?url=https://eloy.portet.org/&key=de6c517051ebe6dd132277704fc3fc0b"
+  ```
+  Réponse 200 ou 202 = reçu.
+- **Google** : ne propose plus de « ping ». Passer par Google Search Console → Inspection de l'URL → Demander l'indexation. Mettre à jour `<lastmod>` de `sitemap.xml`.
 
 ## Idées en attente
 
