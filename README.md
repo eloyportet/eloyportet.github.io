@@ -34,12 +34,15 @@ Ce document sert de passation : un humain ou une IA doit pouvoir reprendre le pr
 | `sw.js` | Service worker : cache hors ligne (**voir « Versionner le cache »**) |
 | `manifest.webmanifest` | Manifest PWA (nom, couleurs, icônes) |
 | `favicon.svg` | Logo « E » vectoriel |
-| `assets/eloy-photo.jpg` | Photo originale (1536 px), utilisée **uniquement** pour les aperçus de partage (`og:image`) |
+| `assets/eloy-photo.jpg` | Photo originale (1536 px) : source de l'avatar et de l'image de partage, référencée dans le JSON-LD |
+| `assets/og-image.jpg` | Image d'aperçu de partage 1200×630 (`og:image`, `twitter:image`), générée depuis `tools/og-template.html` |
 | `assets/eloy-avatar-336.jpg` | Avatar affiché sur la page (336 px = 168 px ×2) |
 | `assets/icons/` | Icônes PNG générées depuis le logo (192, 512, 512 maskable, apple-touch 180, favicon 32) |
 | `assets/qr-vcard.svg` | QR code de la fiche contact (contenu = `eloy-portet.vcf`) |
 | `assets/qr-site.svg` | QR code de l'URL `https://eloy.portet.org/` |
 | `eloy-portet.vcf` | Fiche contact téléchargeable (vCard 3.0) |
+| `404.html` | Page d'erreur servie par GitHub Pages pour toute URL inconnue (chemins **absolus** obligatoires : `/css/style.css`) |
+| `tools/og-template.html` | Gabarit HTML de l'image de partage (non indexé). Publié mais jamais lié |
 | `robots.txt`, `sitemap.xml` | Indexation |
 | `CNAME` | Domaine perso GitHub Pages — **ne pas supprimer** |
 
@@ -81,8 +84,17 @@ Garder la vCard courte : plus elle est longue, plus le QR est dense et difficile
 
 ### Changer la photo
 - Avatar : recadrer en carré **336×336**, JPEG qualité ~80, remplacer `assets/eloy-avatar-336.jpg`.
-- Aperçu de partage : remplacer `assets/eloy-photo.jpg` et mettre à jour `og:image:width` / `og:image:height`.
+- Image de partage : regénérer `assets/og-image.jpg` (voir ci-dessous).
 - Incrémenter `VERSION`.
+
+### Regénérer l'image de partage (`og-image.jpg`)
+Modifier `tools/og-template.html` (textes, mise en page), lancer le serveur local, puis faire une capture 1200×630 en mode headless (Edge ou Chrome) :
+
+```bash
+msedge --headless --hide-scrollbars --window-size=1200,630 --virtual-time-budget=8000 --screenshot=og.png http://localhost:8080/tools/og-template.html
+```
+
+Convertir `og.png` en JPEG (qualité ~85, < 100 Ko) vers `assets/og-image.jpg`, supprimer le PNG, incrémenter `VERSION`. Puis forcer Facebook à relire la page (Sharing Debugger), sinon il garde l'ancien aperçu.
 
 ### Changer le logo / les icônes
 `favicon.svg` est la source. Les PNG de `assets/icons/` en sont dérivés : l'icône `maskable` doit avoir un fond plein et le « E » dans les 80 % centraux (Android découpe les bords).
@@ -116,4 +128,3 @@ Pousser sur `main` : GitHub Pages publie en une à deux minutes. Après une mise
 ## Idées en attente
 
 - Section « Dad Jokes » : actuellement « Coming soon ». Piste : une blague au hasard tirée d'un tableau dans `main.js` (fonctionne hors ligne, zéro dépendance).
-- Image `og:image` dédiée au format 1200×630 (le visuel carré actuel est recadré par certains réseaux).

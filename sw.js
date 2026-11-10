@@ -1,6 +1,6 @@
 /* Service worker — offline support for eloy.portet.org
    Bump VERSION whenever any site file changes (see README.md, "Versionner le cache"). */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'eloy-' + VERSION;
 const FONT_CACHE = 'eloy-fonts';
 
@@ -47,7 +47,8 @@ self.addEventListener('fetch', (event) => {
       fetch(req)
         .then((res) => {
           const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put('/', copy));
+          const path = new URL(req.url).pathname;
+          if (res.ok && (path === '/' || path === '/index.html')) caches.open(CACHE).then((c) => c.put('/', copy));
           return res;
         })
         .catch(() => caches.match('/', { ignoreSearch: true }))
