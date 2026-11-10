@@ -12,6 +12,8 @@
     toggle.addEventListener('click', function () {
       current = current === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', current);
+      var tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.setAttribute('content', current === 'dark' ? '#060606' : '#eeeeee');
       updateIcon(current);
     });
   }
@@ -39,6 +41,89 @@
       btn.addEventListener('mouseleave', function () {
         btn.style.transform = '';
       });
+    });
+  }
+})();
+
+(function () {
+  // ---------- Service worker (offline) ----------
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').catch(function () {});
+    });
+  }
+
+  // ---------- Install button ----------
+  var installBtn = document.querySelector('[data-install]');
+  var iosHint = document.querySelector('[data-ios-hint]');
+  var deferredPrompt = null;
+  var standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.finally(function () {
+        deferredPrompt = null;
+        installBtn.hidden = true;
+      });
+    });
+  }
+
+  window.addEventListener('appinstalled', function () {
+    if (installBtn) installBtn.hidden = true;
+    if (iosHint) iosHint.hidden = true;
+  });
+
+  // iOS Safari has no install prompt: show a short how-to instead
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isIOS && !standalone && iosHint) iosHint.hidden = false;
+
+  // ---------- Business card dialog (QR) ----------
+  var dialog = document.querySelector('[data-card-dialog]');
+  if (!dialog || typeof dialog.showModal !== 'function') return;
+
+  document.querySelectorAll('[data-card-open]').forEach(function (btn) {
+    btn.addEventListener('click', function () { dialog.showModal(); });
+  });
+
+  // Close on backdrop click
+  dialog.addEventListener('click', function (e) {
+    if (e.target === dialog) dialog.close();
+  });
+
+  // Tabs: Contact (vCard) / Site web (URL)
+  var tabs = Array.prototype.slice.call(dialog.querySelectorAll('[role="tab"]'));
+  function select(tab) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (tab, i) {
+    tab.addEventListener('click', function () { select(tab); });
+    tab.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      select(next); next.focus();
+    });
+  });
+
+  // Native share sheet when available
+  var shareBtn = dialog.querySelector('[data-share]');
+  if (shareBtn && navigator.share) {
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', function () {
+      navigator.share({ title: 'Eloy Portet', text: 'Batteur chez Stoneheart', url: 'https://eloy.portet.org/' }).catch(function () {});
     });
   }
 })();

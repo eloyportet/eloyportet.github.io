@@ -1,2 +1,119 @@
-# eloyportet.github.io
-Git Hub Pages Repo
+# eloy.portet.org
+
+Page « link-in-bio » d'**Eloy Portet**, batteur du groupe **Stoneheart**.
+Site statique d'une seule page, hébergé sur **GitHub Pages** (domaine perso via `CNAME`), installable en **PWA** et consultable **hors ligne**.
+
+Ce document sert de passation : un humain ou une IA doit pouvoir reprendre le projet sans contexte préalable.
+
+---
+
+## Objectifs
+
+1. **Carte de visite numérique** : liens vers les réseaux d'Eloy et de Stoneheart, contact email.
+2. **Partage en face à face** : un QR code (contact vCard ou URL du site) affichable en un geste depuis le téléphone, y compris sans réseau (en concert, en cave…).
+3. **Installable** : proposer l'ajout à l'écran d'accueil (bouton « Installer l'appli » en pied de page ; consigne manuelle sur iOS).
+4. **Bon référencement** sur la requête « Eloy Portet » / « batteur Stoneheart », et de beaux aperçus quand le lien est partagé (Facebook, WhatsApp, Instagram…).
+5. **Identité visuelle** : chrome/métal sur fond noir, monochrome, une seule touche de rouge (`--color-accent`). Mode sombre par défaut, mode clair « acier brossé » en option.
+
+## Contraintes
+
+- **Zéro build, zéro dépendance** : HTML/CSS/JS à la main, servis tels quels par GitHub Pages. Pas de framework, pas de bundler, pas de `package.json`. Le site doit rester modifiable directement depuis l'interface GitHub.
+- **Coût nul** : pas de service tiers payant, pas de backend. Seule ressource externe : les polices Fontshare (Clash Display, General Sans).
+- **Léger et rapide** : images dimensionnées pour leur taille d'affichage (×2 pour les écrans Retina), pas de JS bloquant (`defer`).
+- **Accessible** : `alt` sur les images, `aria-label` sur les boutons icônes, focus visible, `prefers-reduced-motion` respecté (animations coupées).
+- **Langue** : contenu en français (`lang="fr"`), ton décalé (« mi-homme, mi-canard »).
+- **Vie privée** : pas de tracker ni d'analytics.
+
+## Arborescence
+
+| Fichier | Rôle |
+|---|---|
+| `index.html` | La page unique : contenu, balises SEO/Open Graph, JSON-LD, fenêtre QR (`<dialog>`) |
+| `css/style.css` | Tous les styles ; jetons de couleur/espacement en variables CSS (`:root`, `[data-theme]`) |
+| `js/main.js` | Bascule de thème, effet d'inclinaison des boutons, enregistrement du service worker, bouton d'installation, fenêtre QR |
+| `sw.js` | Service worker : cache hors ligne (**voir « Versionner le cache »**) |
+| `manifest.webmanifest` | Manifest PWA (nom, couleurs, icônes) |
+| `favicon.svg` | Logo « E » vectoriel |
+| `assets/eloy-photo.jpg` | Photo originale (1536 px), utilisée **uniquement** pour les aperçus de partage (`og:image`) |
+| `assets/eloy-avatar-336.jpg` | Avatar affiché sur la page (336 px = 168 px ×2) |
+| `assets/icons/` | Icônes PNG générées depuis le logo (192, 512, 512 maskable, apple-touch 180, favicon 32) |
+| `assets/qr-vcard.svg` | QR code de la fiche contact (contenu = `eloy-portet.vcf`) |
+| `assets/qr-site.svg` | QR code de l'URL `https://eloy.portet.org/` |
+| `eloy-portet.vcf` | Fiche contact téléchargeable (vCard 3.0) |
+| `robots.txt`, `sitemap.xml` | Indexation |
+| `CNAME` | Domaine perso GitHub Pages — **ne pas supprimer** |
+
+## ⚠️ Versionner le cache (`sw.js`)
+
+Le service worker garde une copie des fichiers dans le navigateur des visiteurs. **Après toute modification d'un fichier du site, incrémenter `VERSION` en haut de `sw.js`** :
+
+```js
+const VERSION = 'v1';   // → 'v2', 'v3', …
+```
+
+Pourquoi : la page HTML est servie « réseau d'abord », mais le CSS, le JS et les images sont servis « cache d'abord » (rafraîchis en arrière-plan). Sans changement de `VERSION`, un visiteur peut voir la nouvelle page avec l'ancien CSS/JS pendant une visite. Changer `VERSION` modifie `sw.js`, ce qui force le navigateur à installer le nouveau service worker, à retélécharger tous les fichiers et à supprimer l'ancien cache.
+
+Autres règles :
+- **Nouveau fichier nécessaire hors ligne** → l'ajouter à la liste `PRECACHE` de `sw.js`. Un chemin qui n'existe pas fait **échouer toute l'installation** du service worker : vérifier l'orthographe.
+- **Fichier renommé ou supprimé** → le retirer de `PRECACHE`.
+- Les liens externes (Instagram, Facebook, stoneheart.fr) ne sont pas mis en cache : c'est voulu.
+
+## Recettes courantes
+
+### Modifier un texte ou un lien
+Éditer `index.html`, puis incrémenter `VERSION` dans `sw.js`.
+
+### Changer l'email ou les infos de contact
+Les infos sont présentes à **quatre** endroits, à garder synchronisés :
+1. `index.html` : pied de page (`mailto:`) et JSON-LD (`"email"`, `sameAs`)
+2. `eloy-portet.vcf`
+3. `assets/qr-vcard.svg` : **à regénérer** (le QR encode le contenu du `.vcf`)
+4. Si l'URL du site change : `assets/qr-site.svg`, `CNAME`, balises `canonical`/`og:*`, `sitemap.xml`, `robots.txt`, JSON-LD, et l'URL du bouton Partager dans `js/main.js`
+
+Regénérer les QR (Node requis, hors du dépôt pour ne pas y laisser de `node_modules`) :
+
+```bash
+mkdir /tmp/qr && cd /tmp/qr && npm i qrcode@1.5.4
+node -e "const Q=require('qrcode'),fs=require('fs'),o={type:'svg',margin:2,errorCorrectionLevel:'M',color:{dark:'#060606',light:'#ffffff'}};const R='CHEMIN/VERS/LE/DEPOT';Q.toString(fs.readFileSync(R+'/eloy-portet.vcf','utf8'),o).then(s=>fs.writeFileSync(R+'/assets/qr-vcard.svg',s));Q.toString('https://eloy.portet.org/',o).then(s=>fs.writeFileSync(R+'/assets/qr-site.svg',s))"
+```
+
+Garder la vCard courte : plus elle est longue, plus le QR est dense et difficile à scanner.
+
+### Changer la photo
+- Avatar : recadrer en carré **336×336**, JPEG qualité ~80, remplacer `assets/eloy-avatar-336.jpg`.
+- Aperçu de partage : remplacer `assets/eloy-photo.jpg` et mettre à jour `og:image:width` / `og:image:height`.
+- Incrémenter `VERSION`.
+
+### Changer le logo / les icônes
+`favicon.svg` est la source. Les PNG de `assets/icons/` en sont dérivés : l'icône `maskable` doit avoir un fond plein et le « E » dans les 80 % centraux (Android découpe les bords).
+
+### Ajouter une section de liens
+Copier un bloc `<a class="link-btn link-btn--secondary">` existant (icône SVG en ligne, `target="_blank" rel="noopener noreferrer"`). Si c'est un profil de la même personne/du groupe, l'ajouter aussi au `sameAs` du JSON-LD.
+
+## Tester en local
+
+Le service worker exige `http://localhost` ou HTTPS : ouvrir `index.html` par double-clic (`file://`) ne suffit pas.
+
+```bash
+npx -y http-server@14.1.1 -p 8080 -c-1
+```
+
+Puis ouvrir http://localhost:8080. Le fichier `.claude/launch.json` contient la même commande pour Claude Code.
+
+À vérifier avant de pousser :
+- DevTools → **Application** → *Manifest* : pas d'erreur, icônes visibles ; *Service workers* : actif.
+- DevTools → **Network** → cocher *Offline*, recharger : la page et la fenêtre QR doivent s'afficher.
+- Le bouton « Installer l'appli » n'apparaît que si Chrome/Edge proposent l'installation (et jamais une fois l'appli installée).
+- En local, le service worker de localhost peut servir une vieille version : DevTools → Application → *Clear site data*, ou cocher *Update on reload*.
+
+## Déployer
+
+Pousser sur `main` : GitHub Pages publie en une à deux minutes. Après une mise en ligne qui touche le SEO :
+- Aperçus de partage : Sharing Debugger de Facebook (forcer un nouveau scraping).
+- Données structurées : Rich Results Test de Google.
+- Indexation : déclarer `https://eloy.portet.org/sitemap.xml` dans Google Search Console.
+
+## Idées en attente
+
+- Section « Dad Jokes » : actuellement « Coming soon ». Piste : une blague au hasard tirée d'un tableau dans `main.js` (fonctionne hors ligne, zéro dépendance).
+- Image `og:image` dédiée au format 1200×630 (le visuel carré actuel est recadré par certains réseaux).

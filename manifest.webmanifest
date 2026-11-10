@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Eloy Portet — Batteur de Stoneheart",
+  "short_name": "Eloy",
+  "description": "Eloy Portet, batteur de Stoneheart. Liens, contact et carte de visite.",
+  "lang": "fr-FR",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#060606",
+  "theme_color": "#060606",
+  "categories": ["music", "social"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

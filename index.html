@@ -3,19 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eloy</title>
-<meta name="description" content="Eloy — batteur chez Stoneheart. Retrouve-le sur Facebook, Instagram, et découvre le groupe Stoneheart.">
+<title>Eloy Portet — Batteur de Stoneheart</title>
+<meta name="description" content="Eloy Portet, batteur du groupe Stoneheart. Musicien, dad jokes, mi-homme mi-canard : retrouve-le sur Instagram, Facebook et découvre Stoneheart.">
+<meta name="author" content="Eloy Portet">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://eloy.portet.org/">
 
-<meta property="og:title" content="Eloy">
-<meta property="og:description" content="Batteur chez Stoneheart. Musicien. Mi-homme, mi-canard.">
 <meta property="og:type" content="profile">
-<meta property="og:image" content="assets/eloy-photo.jpg">
+<meta property="og:site_name" content="Eloy Portet">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:url" content="https://eloy.portet.org/">
+<meta property="og:title" content="Eloy Portet — Batteur de Stoneheart">
+<meta property="og:description" content="Batteur chez Stoneheart. Musicien. Mi-homme, mi-canard.">
+<meta property="og:image" content="https://eloy.portet.org/assets/eloy-photo.jpg">
+<meta property="og:image:width" content="1536">
+<meta property="og:image:height" content="1546">
+<meta property="og:image:alt" content="Eloy, l'homme au masque de canard">
+<meta property="profile:first_name" content="Eloy">
+<meta property="profile:last_name" content="Portet">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eloy Portet — Batteur de Stoneheart">
+<meta name="twitter:description" content="Batteur chez Stoneheart. Musicien. Mi-homme, mi-canard.">
+<meta name="twitter:image" content="https://eloy.portet.org/assets/eloy-photo.jpg">
+
 <meta name="theme-color" content="#060606">
-
+<meta name="color-scheme" content="dark light">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Eloy">
+<meta name="mobile-web-app-capable" content="yes">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": "https://eloy.portet.org/",
+  "inLanguage": "fr-FR",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Eloy Portet",
+    "givenName": "Eloy",
+    "familyName": "Portet",
+    "jobTitle": "Batteur",
+    "description": "Musicien, batteur du groupe Stoneheart. Mi-homme, mi-canard.",
+    "image": "https://eloy.portet.org/assets/eloy-photo.jpg",
+    "url": "https://eloy.portet.org/",
+    "email": "mailto:eloy@portet.org",
+    "sameAs": [
+      "https://www.instagram.com/eloyportet/",
+      "https://www.facebook.com/profile.php?id=100018490963108"
+    ],
+    "memberOf": {
+      "@type": "MusicGroup",
+      "name": "Stoneheart",
+      "url": "https://www.stoneheart.fr/",
+      "sameAs": [
+        "https://www.instagram.com/stoneheart_music/",
+        "https://www.facebook.com/StoneheartMusic/"
+      ]
+    }
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://api.fontshare.com">
+<link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
@@ -29,7 +83,10 @@
 <div class="page">
 
   <div class="topbar">
-    <button class="theme-toggle" data-theme-toggle aria-label="Passer en mode clair">
+    <button class="icon-btn" type="button" data-card-open aria-haspopup="dialog" aria-label="Afficher ma carte de visite (QR code)" title="Carte de visite">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>
+    </button>
+    <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Passer en mode clair">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
     </button>
   </div>
@@ -39,14 +96,14 @@
     <div class="avatar-frame">
       <div class="avatar-ring" aria-hidden="true"></div>
       <div class="avatar-img">
-        <img src="assets/eloy-photo.jpg" alt="Eloy, l'homme au masque de canard" width="168" height="168">
+        <img src="assets/eloy-avatar-336.jpg" alt="Eloy Portet, l'homme au masque de canard" width="168" height="168" fetchpriority="high">
       </div>
     </div>
 
     <p class="eyebrow">Batteur</p>
-    <h1 class="title">Eloy</h1>
+    <h1 class="title">Eloy<span class="sr-only"> Portet</span></h1>
     <p class="subtitle">Batteur chez Stoneheart<span class="accent-dot"> · </span>Dad Jokes</p>
-    <p class="bio">Musicien, batteur</br/> The man, the myth, the legend<br/>Mi-homme, mi-canard.</p>
+    <p class="bio">Musicien, batteur<br>The man, the myth, the legend<br/>Mi-homme, mi-canard.</p>
 
     <nav class="link-stack" aria-label="Liens principaux">
       <a class="link-btn link-btn--primary" href="https://www.facebook.com/profile.php?id=100018490963108" target="_blank" rel="noopener noreferrer">
@@ -72,7 +129,7 @@
       <span class="line"></span>
     </div>
 
-    <div class="link-group" aria-label="Liens Stoneheart">
+    <nav class="link-group" aria-label="Liens Stoneheart">
       <a class="link-btn link-btn--secondary" href="https://www.instagram.com/stoneheart_music/" target="_blank" rel="noopener noreferrer">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg>
         <span class="label">Instagram<span class="handle">@stoneheart_music</span></span>
@@ -90,7 +147,7 @@
         <span class="label">Site web<span class="handle">stoneheart.fr</span></span>
         <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </a>
-    </div>
+    </nav>
 
     <div class="section-header">
       <span class="line"></span>
@@ -98,22 +155,52 @@
       <span class="line"></span>
     </div>
     
-    <div>
-      Coming soon
-    </div>
-    <div class="separator">
-    </div>
+    <p class="coming-soon">Coming soon</p>
 
     <footer>
       <div class="mark" aria-hidden="true">
         <svg viewBox="0 0 64 64"><path d="M18 14 H46 L42 22 H26 V29 H40 L36 37 H26 V44 H44 L40 52 H18 Z" fill="currentColor"/></svg>
       </div>
-      <p class="note">Eloy Portet - eloy@portet.org</p>
+      <p class="note">Eloy Portet · <a href="mailto:eloy@portet.org">eloy@portet.org</a></p>
+      <div class="footer-actions">
+        <button class="pill-btn" type="button" data-card-open aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>
+          Carte de visite
+        </button>
+        <button class="pill-btn" type="button" data-install hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+          Installer l'appli
+        </button>
+      </div>
+      <p class="install-hint" data-ios-hint hidden>Pour installer sur iPhone : <strong>Partager</strong> puis <strong>Sur l'écran d'accueil</strong>.</p>
     </footer>
 
   </main>
 </div>
 
-<script src="js/main.js"></script>
+<dialog class="card-dialog" data-card-dialog aria-labelledby="card-title">
+  <form method="dialog">
+    <button class="icon-btn card-close" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </form>
+  <h2 id="card-title" class="card-title">Eloy Portet</h2>
+  <p class="card-sub">Batteur · Stoneheart</p>
+  <div class="card-tabs" role="tablist" aria-label="Type de QR code">
+    <button type="button" role="tab" aria-selected="true" aria-controls="qr-vcard" id="tab-vcard">Contact</button>
+    <button type="button" role="tab" aria-selected="false" aria-controls="qr-site" id="tab-site" tabindex="-1">Site web</button>
+  </div>
+  <div class="card-qr">
+    <img id="qr-vcard" role="tabpanel" aria-labelledby="tab-vcard" src="assets/qr-vcard.svg" alt="QR code : ajouter Eloy Portet aux contacts" width="240" height="240" loading="lazy">
+    <img id="qr-site" role="tabpanel" aria-labelledby="tab-site" src="assets/qr-site.svg" alt="QR code : eloy.portet.org" width="240" height="240" loading="lazy" hidden>
+  </div>
+  <p class="card-hint">Scanne avec l'appareil photo</p>
+  <div class="card-actions">
+    <a class="pill-btn" href="eloy-portet.vcf" download>Enregistrer le contact</a>
+    <button class="pill-btn" type="button" data-share hidden>Partager le lien</button>
+  </div>
+</dialog>
+
+<script src="js/main.js" defer></script>
 </body>
 </html>
